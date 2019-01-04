@@ -44,34 +44,30 @@ func (a *array) genAllSubs() {
 
 func (a *array) DistinctSub() []string {
 	n := a.DistinctSubCount()
-	dups := make([]string, a.SubCount()-n)
 	dist := make([]string, n)
-
 	k := 0
 
-	for i := 1; i < len(a.lcp); i++ {
-		for j := 0; j < a.lcp[i]; j++ {
-			dups[k] = a.txt[a.sa[i] : a.sa[i]+j+1]
+	//# suffix array
+	var x,y int
+	for i, n := range a.sa {
+		x = n
+		if i > 0 {
+			y = a.sa[i-1]
+		} else {
+			y = len(a.sa)
+		}
+
+		//# skip common prefix
+		for x < len(a.sa) && len(a.sa) > y && a.txt[x] == a.txt[y] {
+			x += 1
+			y += 1
+		}
+
+		for x < len(a.sa) {
+			dist[k] = a.txt[n:x+1]
 			k++
+			x += 1
 		}
-	}
-
-	var m, ind int
-	for _, v := range a.subs {
-		m = -1
-		for k, vv := range dups {
-			if v == vv {
-				m = k
-			}
-		}
-
-		if m > -1 {
-			dups[m] = ""
-			continue
-		}
-
-		dist[ind] = v
-		ind++
 	}
 
 	return dist

@@ -2,6 +2,7 @@ package suffix
 
 import (
 	"bytes"
+	"fmt"
 	"math/rand"
 	"testing"
 	"time"
@@ -12,7 +13,7 @@ func BenchmarkArray_DistinctSub(b *testing.B) {
 	var bb bytes.Buffer
 	rand.Seed(time.Now().UnixNano())
 
-	for i := 0; i < 500; i++ {
+	for i := 0; i < 15000; i++ {
 		bb.WriteRune(rune(rand.Intn(26) + 97))
 	}
 	str := bb.String()
