@@ -1,8 +1,9 @@
 # Suffix Array
 This package provides common functionality associated with suffix arrays.
 
-```sa := NewArray([]byte("azaza"))
+```
 //returns [][]byte of all distinct substrings of "azaza"
+sa := NewArray([]byte("azaza"))
 sub := sa.DistinctSub()
 
 for k, v := range sub {
