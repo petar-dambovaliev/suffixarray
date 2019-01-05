@@ -3,7 +3,7 @@ This package provides common functionality associated with suffix arrays.
 
 ```
 //returns [][]byte of all distinct substrings of "azaza"
-sa := NewArray([]byte("azaza"))
+sa := suffix.NewArray([]byte("azaza"))
 sub := sa.DistinctSub()
 
 for k, v := range sub {
