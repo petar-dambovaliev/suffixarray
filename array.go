@@ -12,7 +12,6 @@ type array struct {
 	txt  []byte
 	sa   []int
 	lcp  []int
-	subs []string
 }
 
 func NewArray(txt []byte) Suffix {

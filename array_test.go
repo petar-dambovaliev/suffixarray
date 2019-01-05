@@ -53,3 +53,21 @@ func TestArray_DistinctSub(t *testing.T) {
 		}
 	}
 }
+
+func TestArray_DistinctSubCount(t *testing.T) {
+	sa := NewArray([]byte("azaza"))
+	c := sa.DistinctSubCount()
+
+	if c != 9 {
+		t.Errorf("expected 9 got %v\n", c)
+	}
+}
+
+func TestArray_SubCount(t *testing.T) {
+	sa := NewArray([]byte("azaza"))
+	c := sa.SubCount()
+
+	if c != 15 {
+		t.Errorf("expected 15 got %v\n", c)
+	}
+}
