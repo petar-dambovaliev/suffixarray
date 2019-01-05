@@ -1,53 +1,34 @@
 package suffix
 
-import (
-	"sort"
-)
+import "sort"
 
 type Suffix interface {
 	DistinctSubCount() int
-	DistinctSub() []string
+	DistinctSub() [][]byte
 	SubCount() int
 }
 
 type array struct {
-	txt  string
+	txt  []byte
 	sa   []int
 	lcp  []int
 	subs []string
 }
 
-func NewArray(txt string) Suffix {
+func NewArray(txt []byte) Suffix {
 	a := &array{txt: txt}
 	a.newArray()
 	a.newLcp()
-	a.genAllSubs()
 
 	return a
 }
 
-func (a *array) genAllSubs() {
-	cnt := a.SubCount()
-	allSubs := make([]string, cnt)
-
-	k := 0
-
-	for i := 0; i < len(a.txt); i++ {
-		for j := 0; j < len(a.txt)-i; j++ {
-			allSubs[k] = a.txt[j : j+i+1]
-			k++
-		}
-	}
-
-	a.subs = allSubs
-}
-
-func (a *array) DistinctSub() []string {
+// DistinctSub returns all the distinct substrings of a.txt
+func (a *array) DistinctSub() [][]byte {
 	n := a.DistinctSubCount()
-	dist := make([]string, n)
+	dist := make([][]byte, n)
 	k := 0
 
-	//# suffix array
 	var x,y int
 	for i, n := range a.sa {
 		x = n
@@ -57,11 +38,8 @@ func (a *array) DistinctSub() []string {
 			y = len(a.sa)
 		}
 
-		//# skip common prefix
-		for x < len(a.sa) && len(a.sa) > y && a.txt[x] == a.txt[y] {
-			x += 1
-			y += 1
-		}
+		x += a.lcp[i]
+		y += a.lcp[i]
 
 		for x < len(a.sa) {
 			dist[k] = a.txt[n:x+1]
@@ -73,10 +51,12 @@ func (a *array) DistinctSub() []string {
 	return dist
 }
 
+// SubCount returns the total substring count in a.txt
 func (a *array) SubCount() int {
 	return (len(a.txt) * (len(a.txt) + 1)) / 2
 }
 
+// DistinctSubCount returns the total distinct substrings in a.txt
 func (a *array) DistinctSubCount() int {
 	var dup int
 
@@ -168,7 +148,7 @@ func (a *array) newLcp() {
 		s1 = a.sa[i-1]
 		s2 = a.sa[i]
 
-		for s1 < len(a.txt) && s2 < len(a.txt) && (a.txt)[s1] == (a.txt)[s2] {
+		for s1 < len(a.txt) && s2 < len(a.txt) && a.txt[s1] == a.txt[s2] {
 			common++
 			s1++
 			s2++
