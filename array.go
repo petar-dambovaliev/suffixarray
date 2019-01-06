@@ -19,8 +19,8 @@ type array struct {
 
 func NewArray(txt []byte) Suffix {
 	a := &array{txt: txt}
-	a.newArray()
-	a.newLcp()
+	a.sa = a.newArray()
+	a.lcp = a.newLcp()
 
 	return a
 }
@@ -97,7 +97,7 @@ type suffix struct {
 	Rank  [2]int
 }
 
-func (a *array) newArray() {
+func (a *array) newArray() []int {
 	n := len(a.txt)
 	suffixes := make([]suffix, n)
 
@@ -160,10 +160,10 @@ func (a *array) newArray() {
 		suffixArr[i] = suffixes[i].Index
 	}
 
-	a.sa = suffixArr
+	return suffixArr
 }
 
-func (a *array) newLcp() {
+func (a *array) newLcp() []int {
 	n := len(a.sa)
 	lcp := make([]int, n)
 
@@ -181,5 +181,5 @@ func (a *array) newLcp() {
 		lcp[i] = common
 		common = 0
 	}
-	a.lcp = lcp
+	return lcp
 }
