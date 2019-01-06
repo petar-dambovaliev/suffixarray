@@ -28,4 +28,10 @@ println(distinctSubCount)
 //returns int count of all possible substrings 
 subcount := sa.SubCount()
 println(subcount)
-15```
+15
+
+sa := NewArray([]byte("abracadabra"))
+lrs := sa.LongestRepeatedSubs()
+println(lrs[0])
+abra
+```
