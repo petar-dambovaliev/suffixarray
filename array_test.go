@@ -83,4 +83,19 @@ func TestArray_LongestRepeatedSubs(t *testing.T) {
 	if string(lrs[0]) != "abra" {
 		t.Errorf("expected 'abra' got %v\n", string(lrs[0]))
 	}
+
+	sa = NewArray([]byte("ababbaabaa"))
+	lrs = sa.LongestRepeatedSubs()
+
+	if len(lrs) != 2 {
+		t.Errorf("expected 2 longest repeated substring got %v\n", len(lrs))
+	}
+
+	if string(lrs[0]) != "aba" {
+		t.Errorf("expected 'aba' got %v\n", string(lrs[0]))
+	}
+
+	if string(lrs[1]) != "baa" {
+		t.Errorf("expected 'baa' got %v\n", string(lrs[0]))
+	}
 }
