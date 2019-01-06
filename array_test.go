@@ -54,6 +54,24 @@ func TestArray_DistinctSub(t *testing.T) {
 	}
 }
 
+func BenchmarkArray_DistinctSubCount(b *testing.B) {
+	b.StopTimer()
+	var bb bytes.Buffer
+	rand.Seed(time.Now().UnixNano())
+
+	for i := 0; i < 5000; i++ {
+		bb.WriteRune(rune(rand.Intn(26) + 97))
+	}
+	str := bb.String()
+	b.StartTimer()
+	sa := NewArray([]byte(str))
+
+	for i := 0; i < b.N; i++ {
+		sa.DistinctSubCount()
+	}
+	b.StopTimer()
+}
+
 func TestArray_DistinctSubCount(t *testing.T) {
 	sa := NewArray([]byte("azaza"))
 	c := sa.DistinctSubCount()
@@ -63,6 +81,24 @@ func TestArray_DistinctSubCount(t *testing.T) {
 	}
 }
 
+func BenchmarkArray_SubCount(b *testing.B) {
+	b.StopTimer()
+	var bb bytes.Buffer
+	rand.Seed(time.Now().UnixNano())
+
+	for i := 0; i < 5000; i++ {
+		bb.WriteRune(rune(rand.Intn(26) + 97))
+	}
+	str := bb.String()
+	b.StartTimer()
+	sa := NewArray([]byte(str))
+
+	for i := 0; i < b.N; i++ {
+		sa.SubCount()
+	}
+	b.StopTimer()
+}
+
 func TestArray_SubCount(t *testing.T) {
 	sa := NewArray([]byte("azaza"))
 	c := sa.SubCount()
@@ -70,6 +106,24 @@ func TestArray_SubCount(t *testing.T) {
 	if c != 15 {
 		t.Errorf("expected 15 got %v\n", c)
 	}
+}
+
+func BenchmarkArray_LongestRepeatedSubs(b *testing.B) {
+	b.StopTimer()
+	var bb bytes.Buffer
+	rand.Seed(time.Now().UnixNano())
+
+	for i := 0; i < 5000; i++ {
+		bb.WriteRune(rune(rand.Intn(26) + 97))
+	}
+	str := bb.String()
+	b.StartTimer()
+	sa := NewArray([]byte(str))
+
+	for i := 0; i < b.N; i++ {
+		sa.LongestRepeatedSubs()
+	}
+	b.StopTimer()
 }
 
 func TestArray_LongestRepeatedSubs(t *testing.T) {
