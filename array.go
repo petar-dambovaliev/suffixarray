@@ -1,17 +1,20 @@
 package suffix
 
-import "sort"
+import (
+	"sort"
+)
 
 type Suffix interface {
 	DistinctSubCount() int
 	DistinctSub() [][]byte
 	SubCount() int
+	LongestRepeatedSubs() [][]byte
 }
 
 type array struct {
-	txt  []byte
-	sa   []int
-	lcp  []int
+	txt []byte
+	sa  []int
+	lcp []int
 }
 
 func NewArray(txt []byte) Suffix {
@@ -22,13 +25,36 @@ func NewArray(txt []byte) Suffix {
 	return a
 }
 
+// LongestRepeatedSubs returns the longest
+// repeated substring from a.txt
+func (a *array) LongestRepeatedSubs() [][]byte {
+	var max, key int
+	lrs := make([][]byte, 0)
+
+	for k, v := range a.lcp {
+		if v > max {
+			max = v
+			key = k
+		}
+	}
+
+	lrs = append(lrs, a.txt[a.sa[key]:a.sa[key]+max])
+
+	for i := key + 1; i < len(a.lcp); i++ {
+		if a.lcp[i] == max {
+			lrs = append(lrs, a.txt[a.sa[i]:a.sa[i]+max])
+		}
+	}
+	return lrs
+}
+
 // DistinctSub returns all the distinct substrings of a.txt
 func (a *array) DistinctSub() [][]byte {
 	n := a.DistinctSubCount()
 	dist := make([][]byte, n)
 	k := 0
 
-	var x,y int
+	var x, y int
 	for i, n := range a.sa {
 		x = n
 		if i > 0 {
@@ -41,7 +67,7 @@ func (a *array) DistinctSub() [][]byte {
 		y += a.lcp[i]
 
 		for x < len(a.sa) {
-			dist[k] = a.txt[n:x+1]
+			dist[k] = a.txt[n : x+1]
 			k++
 			x += 1
 		}

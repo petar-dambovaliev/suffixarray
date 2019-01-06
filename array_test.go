@@ -47,7 +47,7 @@ func TestArray_DistinctSub(t *testing.T) {
 
 	for kk, vv := range sub {
 		for k, v := range vv {
-			if v != r[kk][k]{
+			if v != r[kk][k] {
 				t.Errorf("substring %v should be %v %v given", kk, string(vv), string(r[kk]))
 			}
 		}
@@ -69,5 +69,18 @@ func TestArray_SubCount(t *testing.T) {
 
 	if c != 15 {
 		t.Errorf("expected 15 got %v\n", c)
+	}
+}
+
+func TestArray_LongestRepeatedSubs(t *testing.T) {
+	sa := NewArray([]byte("abracadabra"))
+	lrs := sa.LongestRepeatedSubs()
+
+	if len(lrs) != 1 {
+		t.Errorf("expected 1 longest repeated substring got %v\n", len(lrs))
+	}
+
+	if string(lrs[0]) != "abra" {
+		t.Errorf("expected 'abra' got %v\n", string(lrs[0]))
 	}
 }
