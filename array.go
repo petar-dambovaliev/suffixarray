@@ -52,19 +52,10 @@ func (a *array) LongestRepeatedSubs() [][]byte {
 func (a *array) DistinctSub() [][]byte {
 	n := a.DistinctSubCount()
 	dist := make([][]byte, n)
-	k := 0
 
-	var x, y int
+	var x, k int
 	for i, n := range a.sa {
-		x = n
-		if i > 0 {
-			y = a.sa[i-1]
-		} else {
-			y = len(a.sa)
-		}
-
-		x += a.lcp[i]
-		y += a.lcp[i]
+		x = a.lcp[i] + n
 
 		for x < len(a.sa) {
 			dist[k] = a.txt[n : x+1]
